@@ -1,9 +1,11 @@
 package com.example.kakao.webtoon;
 
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
+import com.example.kakao.episode.Episode;
 import com.example.kakao.product.Product;
 import com.example.kakao.product.option.Option;
 
@@ -32,42 +34,74 @@ public class WebtoonResponse {
         }
     }
 
+
     // (기능2) 상품 상세보기
     @Getter
     @Setter
     public static class FindByIdDTO {
-        private Integer productId;
-        private String productName;
-        private String productImage;
-        private Integer productPrice;
-        private Integer productStartCount;
-        private List<OptionDTO> options;
+        private Integer id;
+        private String title;
+        private String author;
+        private Double starCount;
+        private String image;
+        private String weekDay;
+        private String intro;
+        private Integer likeCount;
+        private String hashtag;
+        private List<EpisodeDTO> episodeList;
 
-        public FindByIdDTO(Product product) {
-            this.productId = product.getId();
-            this.productName = product.getProductName();
-            this.productImage = product.getImage();
-            this.productPrice = product.getPrice();
-            this.productStartCount = 5;
-            this.options = product.getOptions().stream()
-                    .map(o -> new OptionDTO(o))
+
+        public FindByIdDTO(Webtoon webtoon) {
+            this.id = webtoon.getId();
+            this.title = webtoon.getTitle();
+            this.author = webtoon.getAuthor();
+            this.starCount = webtoon.getStarCount();
+            this.image = webtoon.getImage();
+            this.weekDay = webtoon.getWeekDay();
+            this.intro = webtoon.getIntro();
+            this.likeCount = webtoon.getLikeCount();
+            this.hashtag = webtoon.getHashtag();
+        
+            this.episodeList = webtoon.getEpisodeList().stream()
+                    .map(episode -> new EpisodeDTO(episode))
                     .collect(Collectors.toList());
         }
 
         @Getter
         @Setter
-        class OptionDTO {
-            private Integer optionId;
-            private String optionName;
-            private Integer optionPrice;
+        class EpisodeDTO {
+            private Integer episodeId;
+            private String detailTitle;
+            private String thumbnail;
+            private Integer epNum;
+            private Double starCount;
+            private Boolean isRead;
+            private Integer cookieCost;
+            private Timestamp createdAt;
 
-            OptionDTO(Option option) {
-                this.optionId = option.getId();
-                this.optionName = option.getOptionName();
-                this.optionPrice = option.getPrice();
+            EpisodeDTO(Episode episode) {
+                
+                this.episodeId = episode.getId();
+                this.detailTitle = episode.getDetailTitle();
+                this.thumbnail = episode.getThumbnail();
+                this.epNum = episode.getEpNum();
+                this.starCount = episode.getStarCount();
+                this.isRead = episode.getIsRead();
+                this.cookieCost = episode.getCookieCost();
+                this.createdAt = episode.getCreatedAt();
             }
         }
     }
+
+
+
+
+
+
+
+
+
+
 
     // 상품조회 + 옵션조회
     @Getter

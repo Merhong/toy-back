@@ -7,9 +7,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.kakao._core.errors.exception.Exception404;
-import com.example.kakao.product.ProductResponse;
-import com.example.kakao.product.option.Option;
-import com.example.kakao.product.option.OptionJPARepository;
 
 import lombok.RequiredArgsConstructor;
 
@@ -25,17 +22,21 @@ public class WebtoonService {
     public List<WebtoonResponse.FindAllDTO> findAll() {
         List<Webtoon> webtoonList = webtoonRepository.findAll();
         
-        List<WebtoonResponse.FindAllDTO> dtoList =  webtoonList.stream()
+        List<WebtoonResponse.FindAllDTO> DTOList =  webtoonList.stream()
                 .map( webtoon -> new WebtoonResponse.FindAllDTO(webtoon) )
                 .collect(Collectors.toList());
 
-        return dtoList;
+        return DTOList;
     }
 
-    // // (기능2) 상품 상세보기
-    // public ProductResponse.FindByIdDTO findById(int id) {
-    //     return null;
-    // }
+    // (기능2) 상품 상세보기
+    public WebtoonResponse.FindByIdDTO findById(int id) {
+        
+        Webtoon webtoon = webtoonRepository.findById(id)
+                .orElseThrow(() -> new Exception404(id+"없음"));
+        
+        return new WebtoonResponse.FindByIdDTO(webtoon);
+    }
 
     // // 상품조회 + 옵션조회
     // public ProductResponse.FindByIdV1DTO findByIdV1(int id) {

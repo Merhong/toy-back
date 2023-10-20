@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.kakao._core.utils.ApiUtils;
-import com.example.kakao.product.option.Option;
 
 import lombok.RequiredArgsConstructor;
 
@@ -24,16 +23,16 @@ public class WebtoonController {
     public ResponseEntity<?> findAll(@RequestParam(value = "page", defaultValue = "0") Integer page) {
         System.out.println("테스트 : findAll()");
         // List<WebtoonResponse.FindAllDTO> responseDTOs = webtoonService.findAll(page);
-        List<WebtoonResponse.FindAllDTO> responseDTOs = webtoonService.findAll();
-        return ResponseEntity.ok().body(ApiUtils.success(responseDTOs));
+        List<WebtoonResponse.FindAllDTO> DTOList = webtoonService.findAll();
+        return ResponseEntity.ok().body(ApiUtils.success(DTOList));
     }
 
     // // (기능2) 상품 상세보기
-    // @GetMapping("/products/{id}")
-    // public ResponseEntity<?> findById(@PathVariable int id) {
-    //     ProductResponse.FindByIdDTO responseDTO = productService.findById(id);
-    //     return ResponseEntity.ok().body(ApiUtils.success(responseDTO));
-    // }
+    @GetMapping("/webtoons/{id}")
+    public ResponseEntity<?> findById(@PathVariable int id) {
+        WebtoonResponse.FindByIdDTO DTO = webtoonService.findById(id);
+        return ResponseEntity.ok().body(ApiUtils.success(DTO));
+    }
 
     // // 상품조회 + 옵션조회
     // @GetMapping("/products/{id}/v1")
