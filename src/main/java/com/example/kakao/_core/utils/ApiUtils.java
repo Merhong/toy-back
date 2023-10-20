@@ -19,13 +19,13 @@ public class ApiUtils {
     @Getter @Setter @AllArgsConstructor
     public static class ApiResult<T> {
         private final boolean success;
-        private final T response;
-        private final ApiError error;
+        private final T data;
+        private final ApiError errorType;
     }
 
     @Getter @Setter @AllArgsConstructor
     public static class ApiError {
-        private final String message;
-        private final int status;
+        private final String msg;
+        private final int code;
     }
 }
