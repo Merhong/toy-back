@@ -1,5 +1,9 @@
 package com.example.kakao.user;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 
 import javax.servlet.http.Cookie;
@@ -7,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
+import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.Errors;
@@ -15,6 +20,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.kakao._core.errors.exception.Exception404;
+import com.example.kakao._core.errors.exception.Exception500;
 import com.example.kakao._core.utils.ApiUtils;
 
 import lombok.RequiredArgsConstructor;
@@ -47,14 +54,8 @@ public class UserRestController {
     // 로그인
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody @Valid UserRequest.LoginDTO requestDTO, Errors errors) {
-        List rtn = userService.login(requestDTO);
-        String jwt = (String)rtn.get(0);
-        // System.out.println(jwt);
-        User user = (User)rtn.get(1);
-        // System.out.println(user.getEmail());
-        // System.out.println(user.getPassword());
-        // System.out.println(user.getUsername());
-        return ResponseEntity.ok().header("Authorization", "Bearer "+jwt).body(ApiUtils.success(user));
+        UserResponse.loginResponseDTO responseDTO = userService.login(requestDTO);
+        return ResponseEntity.ok().header("Authorization", "Bearer "+responseDTO.getJwt()).body(ApiUtils.success(responseDTO));
     }
 
     // 로그아웃
@@ -63,4 +64,7 @@ public class UserRestController {
         session.invalidate();
         return ResponseEntity.ok().body(ApiUtils.success(null));
     }
+
+    
+    
 }

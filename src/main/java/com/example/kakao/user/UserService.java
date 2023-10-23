@@ -27,13 +27,17 @@ public class UserService {
         }
     }
 
-    public List login(UserRequest.LoginDTO requestDTO) {
-        User userPS = userJPARepository.findByEmail(requestDTO.getEmail())
-            .orElseThrow(()-> new Exception400("email을 찾을 수 없습니다 : "+requestDTO.getEmail()));
+    public UserResponse.loginResponseDTO login(UserRequest.LoginDTO requestDTO) {
+        User userPS = userJPARepository.findByEmailAndPassword(requestDTO.getEmail(), requestDTO.getPassword())
+            .orElseThrow(()-> new Exception400("email이나 password가 틀림 : "+requestDTO.getEmail()));
+        
+        System.out.println(userPS);
+
         String jwt = JwtTokenUtils.create(userPS);
-        List rtn = new ArrayList();
-        rtn.add(jwt);
-        rtn.add(userPS);
-        return rtn;
+
+        UserResponse.loginResponseDTO responseDTO = new UserResponse.loginResponseDTO(userPS);
+        responseDTO.setJwt(jwt);
+
+        return responseDTO;
     }
 }

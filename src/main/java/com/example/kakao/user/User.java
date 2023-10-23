@@ -20,7 +20,7 @@ public class User{
     private String email; // 인증시 필요한 필드
     @Column(length = 256, nullable = false)
     private String password;
-    @Column(length = 45, nullable = false)
+    @Column(length = 45, nullable = false, unique = true)
     private String username;
 
     @Builder
