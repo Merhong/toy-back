@@ -1,5 +1,7 @@
 package com.example.kakao.user;
 
+import java.util.List;
+
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -45,8 +47,14 @@ public class UserRestController {
     // 로그인
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody @Valid UserRequest.LoginDTO requestDTO, Errors errors) {
-        String jwt = userService.login(requestDTO);
-        return ResponseEntity.ok().header("Authorization", "Bearer "+jwt).body(ApiUtils.success(null));
+        List rtn = userService.login(requestDTO);
+        String jwt = (String)rtn.get(0);
+        // System.out.println(jwt);
+        User user = (User)rtn.get(1);
+        // System.out.println(user.getEmail());
+        // System.out.println(user.getPassword());
+        // System.out.println(user.getUsername());
+        return ResponseEntity.ok().header("Authorization", "Bearer "+jwt).body(ApiUtils.success(user));
     }
 
     // 로그아웃

@@ -1,5 +1,8 @@
 package com.example.kakao.user;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,9 +27,13 @@ public class UserService {
         }
     }
 
-    public String login(UserRequest.LoginDTO requestDTO) {
+    public List login(UserRequest.LoginDTO requestDTO) {
         User userPS = userJPARepository.findByEmail(requestDTO.getEmail())
             .orElseThrow(()-> new Exception400("email을 찾을 수 없습니다 : "+requestDTO.getEmail()));
-        return JwtTokenUtils.create(userPS);
+        String jwt = JwtTokenUtils.create(userPS);
+        List rtn = new ArrayList();
+        rtn.add(jwt);
+        rtn.add(userPS);
+        return rtn;
     }
 }
