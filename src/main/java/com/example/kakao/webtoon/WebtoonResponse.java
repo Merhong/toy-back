@@ -22,15 +22,21 @@ public class WebtoonResponse {
         private Integer id;
         private String title;
         private String author;
+        private String weekDay;
+        private String specially;
         private Double starCount;
         private String image;
+        private Integer age;
 
         public FindAllDTO(Webtoon webtoon) {
             this.id = webtoon.getId();
             this.title = webtoon.getTitle();
             this.author = webtoon.getAuthor();
             this.starCount = webtoon.getStarCount();
+            this.weekDay = webtoon.getWeekDay();
+            this.specially = webtoon.getSpecially();
             this.image = webtoon.getImage();
+            this.age = webtoon.getAge();
         }
     }
 
@@ -44,7 +50,9 @@ public class WebtoonResponse {
         private String author;
         private Double starCount;
         private String image;
+        private Integer age;
         private String weekDay;
+        private String specially;
         private String intro;
         private Integer likeCount;
         private String hashtag;
@@ -57,7 +65,9 @@ public class WebtoonResponse {
             this.author = webtoon.getAuthor();
             this.starCount = webtoon.getStarCount();
             this.image = webtoon.getImage();
+            this.age = webtoon.getAge();
             this.weekDay = webtoon.getWeekDay();
+            this.specially = webtoon.getSpecially();
             this.intro = webtoon.getIntro();
             this.likeCount = webtoon.getLikeCount();
             this.hashtag = webtoon.getHashtag();
@@ -73,7 +83,6 @@ public class WebtoonResponse {
             private Integer episodeId;
             private String detailTitle;
             private String thumbnail;
-            private Integer epNum;
             private Double starCount;
             private Boolean isRead;
             private Integer cookieCost;
@@ -84,7 +93,6 @@ public class WebtoonResponse {
                 this.episodeId = episode.getId();
                 this.detailTitle = episode.getDetailTitle();
                 this.thumbnail = episode.getThumbnail();
-                this.epNum = episode.getEpNum();
                 this.starCount = episode.getStarCount();
                 this.isRead = episode.getIsRead();
                 this.cookieCost = episode.getCookieCost();

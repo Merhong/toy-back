@@ -23,7 +23,6 @@ public class Episode {
     @Column(length = 100, nullable = false)
     private String detailTitle;
     private String thumbnail;
-    private Integer epNum;
     private Double starCount;
     private Boolean isRead;
     private Integer cookieCost;
